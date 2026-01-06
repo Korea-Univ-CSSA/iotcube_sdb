@@ -1,7 +1,0 @@
-4.0.1 public-apis 6 1193
-067717cce9af02bf987bca35929cc607	/scripts/validate/links.py	
-ed531733e44db6d1d1941548d8645331	/scripts/validate/__init__.py	
-5837aa6db931cbe6c90660abb981c333	/scripts/validate/format.py	
-d41d8cd98f00b204e9800998ecf8427e	/scripts/tests/__init__.py	
-fffa8bd3bf1b144a6bd0a9a5e06de0b1	/scripts/tests/test_validate_links.py	
-e749aec23ef69561dd6ba95287d857d5	/scripts/tests/test_validate_format.py	
