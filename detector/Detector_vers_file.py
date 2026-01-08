@@ -22,13 +22,13 @@ currentPath		= os.getcwd()
 theta			= 0.1
 DBPath          = currentPath
 resultPath		= ""
-finalDBPath		= DBPath + "/../../../../../mnt/sdb1/preprocessor/componentDB/"
-finalDBPathFile = DBPath + "/../../../../../mnt/sdb1/preprocessor/componentDB_file/"
-aveFuncPath		= DBPath + "/../../../../../mnt/sdb1/preprocessor/metaInfos/aveFuncs"
-aveFilePath		= DBPath + "/../../../../../mnt/sdb1/preprocessor/metaInfos/aveFiles"
-ctagsPath		= currentPath + "/../../impl/bin/ctags"
-verFuncPath		= DBPath + "/../../../../../mnt/sdb1/preprocessor/verIDX_func/"
-verFilePath		= DBPath + "/../../../../../mnt/sdb1/preprocessor/verIDX_file/"
+finalDBPath		= DBPath + "/../testdb/preprocessor/componentDB/"
+finalDBPathFile = DBPath + "/../testdb/preprocessor/componentDB_file/"
+aveFuncPath		= DBPath + "/../testdb/preprocessor/metaInfos/aveFuncs"
+aveFilePath		= DBPath + "/../testdb/preprocessor/metaInfos/aveFiles"
+# ctagsPath		= currentPath + "/../../impl/bin/ctags"
+verFuncPath		= DBPath + "/../testdb/preprocessor/verIDX_func/"
+verFilePath		= DBPath + "/../testdb/preprocessor/verIDX_file/"
 
 # shouldMake 	= [resultPath]
 shouldMake = []
@@ -58,79 +58,79 @@ def normalize(string):
 	# ref: https://github.com/squizz617/vuddy
 	return ''.join(string.replace('\n', '').replace('\r', '').replace('\t', '').replace('{', '').replace('}', '').split(' ')).lower()
 
-def hashing(repoPath):
-	# This function is for hashing C/C++ functions
-	# Only consider ".c", ".cc", and ".cpp" files
-	possible = (".c", ".cc", ".cpp", ".java", ".py")
+# def hashing(repoPath):
+# 	# This function is for hashing C/C++ functions
+# 	# Only consider ".c", ".cc", and ".cpp" files
+# 	possible = (".c", ".cc", ".cpp", ".java", ".py")
 	
-	fileCnt  = 0
-	funcCnt  = 0
-	lineCnt  = 0
+# 	fileCnt  = 0
+# 	funcCnt  = 0
+# 	lineCnt  = 0
 
-	resDict  = {}
+# 	resDict  = {}
 
-	for path, dir, files in os.walk(repoPath):
-		for file in files:
-			filePath = os.path.join(path, file)
+# 	for path, dir, files in os.walk(repoPath):
+# 		for file in files:
+# 			filePath = os.path.join(path, file)
 
-			if file.endswith(possible):
-				try:
-					# Execute Ctgas command
-					functionList 	= subprocess.check_output(ctagsPath + ' -f - --kinds-C=* --fields=neKSt "' + filePath + '"', stderr=subprocess.STDOUT, shell=True).decode()
+# 			if file.endswith(possible):
+# 				try:
+# 					# Execute Ctgas command
+# 					functionList 	= subprocess.check_output(ctagsPath + ' -f - --kinds-C=* --fields=neKSt "' + filePath + '"', stderr=subprocess.STDOUT, shell=True).decode()
 
-					f = open(filePath, 'r', encoding = "UTF-8")
+# 					f = open(filePath, 'r', encoding = "UTF-8")
 
-					# For parsing functions
-					lines 		= f.readlines()
-					allFuncs 	= str(functionList).split('\n')
-					func   		= re.compile(r'(function)')
-					number 		= re.compile(r'(\d+)')
-					funcSearch	= re.compile(r'{([\S\s]*)}')
-					tmpString	= ""
-					funcBody	= ""
+# 					# For parsing functions
+# 					lines 		= f.readlines()
+# 					allFuncs 	= str(functionList).split('\n')
+# 					func   		= re.compile(r'(function)')
+# 					number 		= re.compile(r'(\d+)')
+# 					funcSearch	= re.compile(r'{([\S\s]*)}')
+# 					tmpString	= ""
+# 					funcBody	= ""
 
-					fileCnt 	+= 1
+# 					fileCnt 	+= 1
 
-					for i in allFuncs:
-						elemList	= re.sub(r'[\t\s ]{2,}', '', i)
-						elemList 	= elemList.split('\t')
-						funcBody 	= ""
+# 					for i in allFuncs:
+# 						elemList	= re.sub(r'[\t\s ]{2,}', '', i)
+# 						elemList 	= elemList.split('\t')
+# 						funcBody 	= ""
 
-						if i != '' and len(elemList) >= 8 and func.fullmatch(elemList[3]):
-							funcStartLine 	 = int(number.search(elemList[4]).group(0))
-							funcEndLine 	 = int(number.search(elemList[7]).group(0))
+# 						if i != '' and len(elemList) >= 8 and func.fullmatch(elemList[3]):
+# 							funcStartLine 	 = int(number.search(elemList[4]).group(0))
+# 							funcEndLine 	 = int(number.search(elemList[7]).group(0))
 
-							tmpString	= ""
-							tmpString	= tmpString.join(lines[funcStartLine - 1 : funcEndLine])
+# 							tmpString	= ""
+# 							tmpString	= tmpString.join(lines[funcStartLine - 1 : funcEndLine])
 
-							if funcSearch.search(tmpString):
-								funcBody = funcBody + funcSearch.search(tmpString).group(1)
-							else:
-								funcBody = " "
+# 							if funcSearch.search(tmpString):
+# 								funcBody = funcBody + funcSearch.search(tmpString).group(1)
+# 							else:
+# 								funcBody = " "
 
-							funcBody = removeComment(funcBody)
-							funcBody = normalize(funcBody)
-							funcHash = computeTlsh(funcBody)
+# 							funcBody = removeComment(funcBody)
+# 							funcBody = normalize(funcBody)
+# 							funcHash = computeTlsh(funcBody)
 
-							if len(funcHash) == 72 and funcHash.startswith("T1"):
-								funcHash = funcHash[2:]
-							elif funcHash == "TNULL" or funcHash == "" or funcHash == "NULL":
-								continue
+# 							if len(funcHash) == 72 and funcHash.startswith("T1"):
+# 								funcHash = funcHash[2:]
+# 							elif funcHash == "TNULL" or funcHash == "" or funcHash == "NULL":
+# 								continue
 
-							storedPath = filePath.replace(repoPath, "")
-							resDict[funcHash] = storedPath
+# 							storedPath = filePath.replace(repoPath, "")
+# 							resDict[funcHash] = storedPath
 
-							lineCnt += len(lines)
-							funcCnt += 1
+# 							lineCnt += len(lines)
+# 							funcCnt += 1
 
-				except subprocess.CalledProcessError as e:
-					print("Parser Error:", e)
-					continue
-				except Exception as e:
-					print ("Subprocess failed", e)
-					continue
+# 				except subprocess.CalledProcessError as e:
+# 					print("Parser Error:", e)
+# 					continue
+# 				except Exception as e:
+# 					print ("Subprocess failed", e)
+# 					continue
 
-	return resDict, fileCnt, funcCnt, lineCnt 
+# 	return resDict, fileCnt, funcCnt, lineCnt 
 
 def getAveFuncs():
 	aveFuncs = {}
@@ -393,14 +393,14 @@ def main(inputPath, inputRepo, testmode, osmode):
 	global ctagsPath
 	isFuncInput = False
 
-	#componentDB = readComponentDB()
-	if osmode == "win":
-		ctagsPath = currentPath + "/ctags_windows/ctags.exe"
-	elif osmode == "linux":
-		ctagsPath = currentPath + "/ctags_linux/ctags"
-	else:
-		print ("Please enter the correct OS mode! (win|linux)")
-		sys.exit()
+	# #componentDB = readComponentDB()
+	# if osmode == "win":
+	# 	ctagsPath = currentPath + "/ctags_windows/ctags.exe"
+	# elif osmode == "linux":
+	# 	ctagsPath = currentPath + "/ctags_linux/ctags"
+	# else:
+	# 	print ("Please enter the correct OS mode! (win|linux)")
+	# 	sys.exit()
 
 	### function
 	if testmode == "0":

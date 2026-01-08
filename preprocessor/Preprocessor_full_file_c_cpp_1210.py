@@ -23,16 +23,16 @@ sep_len			= len(separator)
 # So far, do not change
 
 theta 			= 0.1										# Default value (0.1)
-tagDatePath 	= "/mnt/sdb1/c_cpp/centris_repo/repo_date/" 							# Default path
-resultPath		= "/mnt/sdb1/c_cpp/centris_repo/repo_files/" 							# Default path
+tagDatePath 	= currentPath + "/../testdb/centris_repo/repo_date/" 							# Default path
+resultPath		= currentPath + "/../testdb/centris_repo/repo_files/" 							# Default path
 # resultPath		= "../tmp_db/" 							# Default path
-verIDXpath		= currentPath + "/../../../../../mnt/sdb1/c_cpp/verIDX_file/"				# Default path
-initialDBPath	= currentPath + "/../../../../../mnt/sdb1/c_cpp/initialSigs/"  			# Default path
-finalDBPath		= currentPath + "/../../../../../mnt/sdb1/c_cpp/componentDB_file/"  		# Default path of the final Component DB
-metaPath		= currentPath + "/../../../../../mnt/sdb1/c_cpp/metaInfos/"				# Default path, for saving pieces of meta-information of collected repositories
-weightPath		= metaPath 	  + "/../../../../../mnt/sdb1/c_cpp/weights/"					# Default path, for version prediction
-fileDatePath	= currentPath + "/../../../../../mnt/sdb1/c_cpp/fileDate/"				# Default path
-primeOSSPath	= currentPath + "/../../../../../mnt/sdb1/c_cpp/primeOSS.txt"
+verIDXpath		= currentPath + "/../testdb/preprocessor/verIDX_file/"				# Default path
+initialDBPath	= currentPath + "/../testdb/preprocessor/initialSigs/"  			# Default path
+finalDBPath		= currentPath + "/../testdb/preprocessor/componentDB_file/"     # Default path of the final Component DB
+metaPath		= currentPath + "/../testdb/preprocessor/metaInfos/"				   # Default path, for saving pieces of meta-information of collected repositories
+weightPath		= currentPath 	  + "/../testdb/preprocessor/weights/"					# Default path, for version prediction
+fileDatePath	= currentPath + "/../testdb/preprocessor/fileDate/"				   # Default path
+primeOSSPath	= currentPath + "/../testdb/preprocessor/primeOSS.txt"
 
 # Generate directories
 shouldMake    = [verIDXpath, initialDBPath, finalDBPath, metaPath, fileDatePath, weightPath]

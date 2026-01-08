@@ -51,7 +51,7 @@ import sqlite3
 
 # SQLite database file
 # db_file_name = "/mnt/sdb1/c_cpp/preprocessor/optimized_transformed_db.sqlite"
-db_file_name = "/mnt/sdb1/c_cpp/optimized_transformed_db_2510201900.sqlite" ## 지민 수정
+db_file_name = "ossfiltering_db.sqlite" 
 
 # Connect to SQLite database (creates the file if it doesn't exist)
 conn = sqlite3.connect(db_file_name)
@@ -68,7 +68,7 @@ cursor.execute('''
 
 # Directory containing the original DB files
 # db_dir = "/mnt/sdb1/c_cpp/preprocessor/componentDB_file"
-db_dir = "/mnt/sdb1/c_cpp/componentDB_file" ## 지민 수정
+db_dir = os.getcwd() + "/../testdb/preprocessor/componentDB_file/" 
 
 # Transform and insert the data into the SQLite DB
 for filename in os.listdir(db_dir):

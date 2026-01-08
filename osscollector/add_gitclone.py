@@ -19,14 +19,14 @@ def make_clone_cmd(s):
         return f"git clone https://github.com/{s}.git"
 
 
-f = open("sample_ts", "r")
+f = open("sample_filter", "r")
 lines = f.readlines()
 print(lines)
 lines_out = [make_clone_cmd(i.strip()) for i in lines]
 print(lines_out)
 f.close()
 
-f = open("sample_ts_git", "w")
+f = open("sample_filter_git", "w")
 
 for i in lines_out:
     f.write(i + "\n")

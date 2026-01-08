@@ -21,10 +21,10 @@ import subprocess
 
 currentPath	= os.getcwd()
 gitCloneURLS= currentPath + "/sample_c_cpp_add" 			# Please change to the correct file (the "sample" file contains only 10 git-clone urls)
-clonePath 	= "/mnt/sdb1/c_cpp/centris_repo/repo_src/"		# Default path
-tagDatePath = "/mnt/sdb1/c_cpp/centris_repo/repo_date/"		# Default path
+clonePath 	= currentPath + "/../testdb/centris_repo/repo_src/"			# Default path
+tagDatePath = currentPath + "/../testdb/centris_repo/repo_date/"		# Default path
 # resultPath	= currentPath + "/repo_file/"		# Default path
-resultPathFile = "/mnt/sdb1/c_cpp/centris_repo/repo_files/"
+resultPathFile = currentPath + "/../testdb/centris_repo/repo_files/"
 # ctagsPath	= "/usr/local/bin/ctags" 			# Ctags binary path (please specify your own ctags path)
 # ctagsPath	= "/usr/bin/ctags" 			# Ctags binary path (please specify your own ctags path)
 
