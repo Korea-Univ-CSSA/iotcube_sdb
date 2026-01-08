@@ -1,0 +1,2 @@
+If the source files in the repo_src folder take up too much space,
+feel free to delete them after building the DB.
