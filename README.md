@@ -18,7 +18,7 @@ osscollector -> preprocessor (-> detector)
 5. Run `/preprocessor/Preprocessor_sqlite.py`.
 6. To preprocess input SW, run `hmark_file.py [input_directory]`.
 7. To analyze, run `Detector_vers_file.py ./res_hmark_file/[input_hidx]`.
-8. Create SBOM file with `create_sbom.py`. (Needs editing)
+8. Create SBOM file: `python3 create_sbom.py [hidx_path] [result_file_path] > output_directory.json` 
 
 
 ### SDB 참고 문서

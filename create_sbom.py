@@ -64,9 +64,16 @@ def build_components(dep_data):
     """
     added_components = set()  # 중복 방지를 위한 세트
 
-    for oss, files in dep_data.items():
+    # 원본 코드
+    # for oss, files in dep_data.items():
+    #     sbom_json["dependencies"][0]["dependsOn"].append(oss)
+    #     oss_name = oss.split()[0]
+
+    # OSS filtering 과제 위해 수정
+    for oss, file_data in dep_data.items():
         sbom_json["dependencies"][0]["dependsOn"].append(oss)
         oss_name = oss.split()[0]
+        files = file_data["files"]
 
         for file_path in files:
             component_key = f"{oss_name}:{file_path}"
@@ -96,11 +103,19 @@ def build_components(dep_data):
             added_components.add(component_key)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: script.py <hidx_path> <dep_data_file_path> <session_key>")
+
+    # 원본 코드
+    # if len(sys.argv) != 4:
+    #     print("Usage: script.py <hidx_path> <dep_data_file_path> <session_key>")
+    #     sys.exit(1)
+
+    # hidx_path, dep_data_file_path, session_key = sys.argv[1:4]
+
+    if len(sys.argv) != 3:
+        print("Usage: script.py <hidx_path> <result_file_path>")
         sys.exit(1)
 
-    hidx_path, dep_data_file_path, session_key = sys.argv[1:4]
+    hidx_path, dep_data_file_path = sys.argv[1:3]
 
     with open(dep_data_file_path, 'r', encoding='utf-8') as json_file:
         dep_data = json.load(json_file)
@@ -108,7 +123,7 @@ if __name__ == "__main__":
     map_file_to_hash(hidx_path)
     build_components(dep_data)
 
-    os.remove(dep_data_file_path)
+    # os.remove(dep_data_file_path)
 
     sbom_json["serialNumber"] = generate_serial_number()
     sbom_json["metadata"]["timestamp"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -124,4 +139,5 @@ if __name__ == "__main__":
         "sbom": sbom_json,
         "file_count": len(sbom_json["components"])
     }
+
     print(json.dumps(result, indent=4))
